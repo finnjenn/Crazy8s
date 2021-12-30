@@ -7,7 +7,7 @@
 # i need some way to store each player's current hand separately 
 # i need to check the top of the 'discard' and see if it matches the card that the user placed. 
 # if it doesnt match, I need to reset player turn and ask them try pick a card that matches in suit or value 
-# if player doesnt have a card, have them pick draw_card_from (or maybe just force the draw_card_from) until they have a card that can be placed
+# if a player doesnt have a card, have them pick draw_card_from (or maybe just force the draw_card_from) until they have a card that can be placed
 import random
 import os # used to clear terminal when player is done with their turn
 
