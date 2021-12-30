@@ -66,9 +66,11 @@ def deal_cards():
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
-    card_played = hand[choice - 1]
-    hand.remove(hand[choice - 1])
-    discard.insert(0,card_played)
+    if discard[0][0].name ==hand[choice][0].name:
+        card_played = hand[choice]
+        hand.remove(hand[choice])
+        discard.insert(0,card_played)
+    else: print('oop')
 
 # GAME START
 # Removes 10 random cards from the deck and adds 5 to each players hand 
@@ -109,12 +111,20 @@ starter_card = return_random_card()
 discard.append(starter_card)
 # This card is the first card in the discard pile and it is 'face-up' to be viewed by the first player to take their turn
 
-#Player 1 turn loop variable
-player1turn = 1
-while player1turn:
-    print('Discard pile:',discard[0][0],'\n')
-    player1turn = 0
 
+def player_turn(hand):
+    print('Discard pile:',discard[0][0],'\n')
+    for i,card in enumerate(hand):
+        print(i,'--',card[0])
+    choice = int(input('Which card would you like to play?\n'))
+    play_card_from_hand(choice,hand)    
+
+game = 1
+while game:
+    #Player 1 turn loop variable
+    player_turn(p1_hand)
+    
+    game = 0
 
     
     # End of game loop
