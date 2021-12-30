@@ -42,6 +42,15 @@ discard = []
 p1_hand = []
 p2_hand = []
 
+def game_setup(player, hand):
+        print('Player', player)
+        name = input('Please enter your name: \n')
+        print('\nWelcome',name +'!\n')
+        print(name + '\'s hand:\n')
+        for x in hand:
+            print(x[0])
+        return name
+
 # Returns and removes a random card from the deck 
 def return_random_card():
     num = random.randint(0,len(deck)-1)
@@ -75,7 +84,8 @@ def play_card_from_hand(choice,hand):
         print('That card does not match the suit or value of the top card.\nPlease try again')
         player_turn(hand)
 
-def player_turn(hand):
+def player_turn(hand,name):
+    print(name,'is taking their turn.')
     print('Top card:',discard[0][0],'\n')
 
     for i,card in enumerate(hand):
@@ -87,67 +97,48 @@ def player_turn(hand):
         if choice == len(hand):
             draw_card_from_deck(hand)
             os.system('cls' if os.name == 'nt' else 'clear')
-            player_turn(hand)
+            player_turn(hand,name)
         else: play_card_from_hand(choice,hand) 
     except: 
         os.system('cls' if os.name == 'nt' else 'clear')
         print('Not a valid card choice')
-        player_turn(hand)
+        player_turn(hand,name)
 
 
 
 # GAME START
-# Removes 10 random cards from the deck and adds 5 to each players hand 
-deal_cards()
 
-# Player 1 inputs information for their name
-name1 = input('\nPlayer 1. Please enter your name: \n')
-print('\nWelcome',name1 +'!\n')
 
-# Show player 1 their hand
-print(name1 + '\'s hand:\n')
-for i,x in enumerate(p1_hand):
-    print(p1_hand[i][0])
+def main():
+    # Removes 10 random cards from the deck and adds 5 to each players hand 
+    deal_cards()
+    discard.append(return_random_card())
 
-# Pauses program to allow Player 1 to view their hand
-print(input('\nPress Enter to input a name for Player 2\n'))
+    name1 = game_setup(1,p1_hand)
+    print(input('\nPress Enter to input the next player\'s name\n'))
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    name2 = game_setup(2,p2_hand)
+    print(input('\nPress Enter to begin the game!\n'))
+    os.system('cls' if os.name == 'nt' else 'clear')
     
-# clear screen
-os.system('cls' if os.name == 'nt' else 'clear')
+    game = 1
+    while game:
 
-# Player 2 inputs information for their name
-name2 = input('Player 2. Please enter your name: \n')
-print('\nWelcome',name2 +'!\n')
+        player_turn(p2_hand,name2)
+        if len(p2_hand) == 0:
+            game = 0
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(input('\nPress Enter to proceed to Player 1\'s turn\n'))
+        
 
-# Show player 2 their hand
-print(name2 + '\'s hand:\n')
-for i,x in enumerate(p2_hand):
-    print(p2_hand[i][0])
+        player_turn(p1_hand,name1)
+        if len(p1_hand) == 0:
+            game = 0
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(input('\nPress Enter to proceed to Player 2\'s turn\n'))
+        
+        # End of game loop
 
-# Pauses program to allow Player 2 to view their hand
-print(input('\nPress Enter to begin game!\n'))
-    
-# clear screen and begin game
-os.system('cls' if os.name == 'nt' else 'clear')
-
-# Returns and removes a random card called starter_card from the deck and adds it to discard 
-starter_card = return_random_card()
-discard.append(starter_card)
-# This card is the first card in the discard pile and it is 'face-up' to be viewed by the first player to take their turn
-
-
-   
-
-game = 1
-while game:
-    #Player 1 turn loop variable
-    player_turn(p1_hand)
-    if len(p1_hand) == 0:
-        game = 0
-    player_turn(p2_hand)
-    if len(p2_hand) == 0:
-        game = 0
-    
-
-    
-    # End of game loop
+print('\n')
+main()
