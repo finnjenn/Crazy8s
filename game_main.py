@@ -10,7 +10,7 @@
 # if a player doesnt have a card, have them pick draw_card_from (or maybe just force the draw_card_from) until they have a card that can be placed
 import random
 import os # used to clear terminal when player is done with their turn
-
+#os.system('cls' if os.name == 'nt' else 'clear')
 
 class Card:
     def __init__(self,name,suit):
@@ -66,11 +66,35 @@ def deal_cards():
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
-    if discard[0][0].name ==hand[choice][0].name:
+    if discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
-    else: print('oop')
+    else: 
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('That card does not match the suit or value of the top card.\nPlease try again')
+        player_turn(hand)
+
+def player_turn(hand):
+    print('Top card:',discard[0][0],'\n')
+
+    for i,card in enumerate(hand):
+        print(i,'--',card[0])
+    print(len(hand),'-- Draw card')
+
+    try:
+        choice = int(input('Which card would you like to play?\n'))
+        if choice == len(hand):
+            draw_card_from_deck(hand)
+            os.system('cls' if os.name == 'nt' else 'clear')
+            player_turn(hand)
+        else: play_card_from_hand(choice,hand) 
+    except: 
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Not a valid card choice')
+        player_turn(hand)
+
+
 
 # GAME START
 # Removes 10 random cards from the deck and adds 5 to each players hand 
@@ -112,19 +136,18 @@ discard.append(starter_card)
 # This card is the first card in the discard pile and it is 'face-up' to be viewed by the first player to take their turn
 
 
-def player_turn(hand):
-    print('Discard pile:',discard[0][0],'\n')
-    for i,card in enumerate(hand):
-        print(i,'--',card[0])
-    choice = int(input('Which card would you like to play?\n'))
-    play_card_from_hand(choice,hand)    
+   
 
 game = 1
 while game:
     #Player 1 turn loop variable
     player_turn(p1_hand)
+    if len(p1_hand) == 0:
+        game = 0
+    player_turn(p2_hand)
+    if len(p2_hand) == 0:
+        game = 0
     
-    game = 0
 
     
     # End of game loop
