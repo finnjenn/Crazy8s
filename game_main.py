@@ -70,13 +70,11 @@ def play_card_from_hand(choice,hand):
     hand.remove(hand[choice - 1])
     discard.insert(0,card_played)
 
-# game = 1 # game running variable
-
-# while game:
-    # Removes 10 random cards from the deck and adds 5 to each players hand 
+# GAME START
+# Removes 10 random cards from the deck and adds 5 to each players hand 
 deal_cards()
 
-    # Player 1 inputs information for their name
+# Player 1 inputs information for their name
 name1 = input('\nPlayer 1. Please enter your name: \n')
 print('\nWelcome',name1 +'!\n')
 
