@@ -70,47 +70,53 @@ def play_card_from_hand(choice,hand):
     hand.remove(hand[choice - 1])
     discard.insert(0,card_played)
 
-game = 1 # game running variable
+# game = 1 # game running variable
 
-while game:
+# while game:
     # Removes 10 random cards from the deck and adds 5 to each players hand 
-    deal_cards()
+deal_cards()
 
     # Player 1 inputs information for their name
-    name1 = input('\nPlayer 1. Please enter your name: \n')
-    print('\nWelcome',name1 +'!\n')
+name1 = input('\nPlayer 1. Please enter your name: \n')
+print('\nWelcome',name1 +'!\n')
 
-    # Show player 1 their hand
-    print(name1 + '\'s hand:\n')
-    for i,x in enumerate(p1_hand):
-        print(p1_hand[i][0])
+# Show player 1 their hand
+print(name1 + '\'s hand:\n')
+for i,x in enumerate(p1_hand):
+    print(p1_hand[i][0])
 
-    # Pauses program to allow Player 1 to view their hand
-    print(input('\nPress Enter to input a name for Player 2\n'))
+# Pauses program to allow Player 1 to view their hand
+print(input('\nPress Enter to input a name for Player 2\n'))
     
-    # clear screen
-    os.system('cls' if os.name == 'nt' else 'clear')
+# clear screen
+os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Player 2 inputs information for their name
-    name2 = input('Player 2. Please enter your name: \n')
-    print('Welcome',name2 +'!\n')
+# Player 2 inputs information for their name
+name2 = input('Player 2. Please enter your name: \n')
+print('\nWelcome',name2 +'!\n')
 
-    # Show player 2 their hand
-    print(name2 + '\'s hand:\n')
-    for i,x in enumerate(p2_hand):
-        print(p2_hand[i][0])
+# Show player 2 their hand
+print(name2 + '\'s hand:\n')
+for i,x in enumerate(p2_hand):
+    print(p2_hand[i][0])
 
-    # Pauses program to allow Player 2 to view their hand
-    print(input('\nPress Enter to begin game!\n'))
+# Pauses program to allow Player 2 to view their hand
+print(input('\nPress Enter to begin game!\n'))
     
-    # clear screen and begin game
-    os.system('cls' if os.name == 'nt' else 'clear')
+# clear screen and begin game
+os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Returns and removes a random card called starter_card from the deck and adds it to discard 
-    starter_card = return_random_card()
-    discard.append(starter_card)
-    # This card is the first card in the discard pile and it is 'face-up' to be viewed by the first player to take their turn
-    print('Discard pile:',discard[0][0])
+# Returns and removes a random card called starter_card from the deck and adds it to discard 
+starter_card = return_random_card()
+discard.append(starter_card)
+# This card is the first card in the discard pile and it is 'face-up' to be viewed by the first player to take their turn
 
-    game = False
+#Player 1 turn loop variable
+player1turn = 1
+while player1turn:
+    print('Discard pile:',discard[0][0],'\n')
+    player1turn = 0
+
+
+    
     # End of game loop
