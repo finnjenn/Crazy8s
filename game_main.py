@@ -1,16 +1,5 @@
-# a deck needs a way to shuffle , a way to remove items, a draw_card_from pile , a way to reset deck
-# when the deck runs out , it needs to be able to access the discard , shuffle its contents , and add it to the deck 
-# it needs to be able to distribute the same amount of cards to each player (doesnt matter if its two players)
-# cards need a name , suit , value
-# code old maid or crazy eights 
-# store count of cards in players hands into a variable. if it reaches zero, player has won 
-# i need some way to store each player's current hand separately 
-# i need to check the top of the 'discard' and see if it matches the card that the user placed. 
-# if it doesnt match, I need to reset player turn and ask them try pick a card that matches in suit or value 
-# if a player doesnt have a card, have them pick draw_card_from (or maybe just force the draw_card_from) until they have a card that can be placed
 import random
 import os # used to clear terminal when player is done with their turn
-#os.system('cls' if os.name == 'nt' else 'clear')
 
 class Card:
     def __init__(self,name,suit):
