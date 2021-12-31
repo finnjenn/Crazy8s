@@ -1,5 +1,6 @@
 import random
 import os # used to clear terminal when player is done with their turn
+import time
 
 class Card:
     def __init__(self,name,suit):
@@ -16,7 +17,6 @@ suites = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
 # Using list comphrehenion, creates a list containing [card object, value of suit] -- Ex. -- [[2 of Hearts, 0] , [2 of Clubs, 1] , [2 of Diamonds, 2] , [2 of Spades, 3] , [3 of Hearts, 0]] etc. for every card
 # Similar to using nested for loops to match each value of values to a suit in suites
 deck = [[Card(v,s),i] for v in values for i,s in enumerate(suites)]
-
 # VALUE OF SUITS
 # Hearts = 0
 # Clubs = 1
@@ -49,6 +49,12 @@ def return_random_card():
 
 # Random card from deck is removed and appended to player hand list 
 def draw_card_from_deck(hand):
+    if len(deck) == 0:
+        print('Shuffling')
+        time.sleep(1.5)
+        deck[:] = discard
+        discard[:] = [return_random_card()]
+
     removed_card = return_random_card()
     hand.append(removed_card)
 
