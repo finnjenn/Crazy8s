@@ -41,13 +41,13 @@ def game_setup(player, hand):
             print(y[0])
         return name
 
-#return_random_card = lambda x: x.remove(x[random.randint(0,len(deck)-1)])
+return_random_card = lambda x: x.pop([random.randint(0,len(x)-1)][0])
 # Returns and removes a random card from the deck 
-def return_random_card():
-    num = random.randint(0,len(deck)-1)
-    removed = deck[num]
-    deck.remove(removed)
-    return removed
+# def return_random_card():
+#     num = random.randint(0,len(deck)-1)
+#     removed = deck[num]
+#     deck.remove(removed)
+#     return removed
 
 # Random card from deck is removed and appended to player hand list 
 def draw_card_from_deck(hand):
@@ -57,10 +57,10 @@ def draw_card_from_deck(hand):
             print('Shuffling')
             time.sleep(1.5)
             deck[:] = discard
-            discard[:] = [return_random_card()]
-            
+            discard[:] = [return_random_card(deck)]
+
     finally:
-        drawn_card = return_random_card()
+        drawn_card = return_random_card(deck)
         hand.append(drawn_card)
 
 # Loop through for block 5 times, adding a card to each players hand with every iteration
@@ -68,9 +68,9 @@ def draw_card_from_deck(hand):
 def deal_cards():
     for x in range(0,5):
         # Remove a random card from the deck 
-        dealt_card = return_random_card()
+        dealt_card = return_random_card(deck)
         p1_hand.append(dealt_card)
-        dealt_card = return_random_card()
+        dealt_card = return_random_card(deck)
         p2_hand.append(dealt_card)
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
@@ -116,7 +116,7 @@ def player_turn(hand,name):
 def main():
     # Removes 10 random cards from the deck and adds 5 to each players hand 
     deal_cards()
-    discard.append(return_random_card())
+    discard.append(return_random_card(deck))
 
     name1 = game_setup(1,p1_hand)
     print(input('\nPress Enter to input the next player\'s name\n'))
