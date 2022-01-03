@@ -123,11 +123,11 @@ def main():
     deal_cards()
     discard.append(return_random_card(deck))
 
-    name1 = game_setup(1,p1_hand)
+    name1 = game_setup(p1_hand)
     print(input('\nPress Enter to input the next player\'s name\n'))
     os.system('cls' if os.name == 'nt' else 'clear')
 
-    name2 = game_setup(2,p2_hand)
+    name2 = game_setup(p2_hand)
     print(input('\nPress Enter to begin the game!\n'))
     os.system('cls' if os.name == 'nt' else 'clear')
     
