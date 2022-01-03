@@ -3,6 +3,7 @@ import os # used to clear terminal when player is done with their turn
 import time
 from itertools import product
 
+
 class Card:
     def __init__(self,name,suit):
         self.name = name
@@ -32,8 +33,7 @@ discard = []
 p1_hand = []
 p2_hand = []
 
-def game_setup(player, hand):
-        print('Player', player)
+def game_setup(hand):
         name = input('Please enter your name: \n')
         print('\nWelcome',name +'!\n')
         print(name + '\'s hand:\n')
@@ -49,6 +49,8 @@ return_random_card = lambda x: x.pop([random.randint(0,len(x)-1)][0])
 #     deck.remove(removed)
 #     return removed
 
+def crazy8():
+    pass
 # Random card from deck is removed and appended to player hand list 
 def draw_card_from_deck(hand):
     try:
@@ -75,10 +77,13 @@ def deal_cards():
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
+    
     if hand[choice][0].name[0]:
+        #choice = crazy8()
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
+        
     if discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
@@ -146,3 +151,6 @@ def main():
 
 print('\n')
 main()
+
+ 
+
