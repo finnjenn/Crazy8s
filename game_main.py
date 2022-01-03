@@ -1,6 +1,7 @@
 import random
 import os # used to clear terminal when player is done with their turn
 import time
+from itertools import product
 
 class Card:
     def __init__(self,name,suit):
@@ -36,10 +37,11 @@ def game_setup(player, hand):
         name = input('Please enter your name: \n')
         print('\nWelcome',name +'!\n')
         print(name + '\'s hand:\n')
-        for x in hand:
-            print(x[0])
+        for y in hand:
+            print(y[0])
         return name
 
+#return_random_card = lambda x: x.remove(x[random.randint(0,len(deck)-1)])
 # Returns and removes a random card from the deck 
 def return_random_card():
     num = random.randint(0,len(deck)-1)
@@ -49,14 +51,17 @@ def return_random_card():
 
 # Random card from deck is removed and appended to player hand list 
 def draw_card_from_deck(hand):
-    if len(deck) == 0:
-        print('Shuffling')
-        time.sleep(1.5)
-        deck[:] = discard
-        discard[:] = [return_random_card()]
+    try:
 
-    removed_card = return_random_card()
-    hand.append(removed_card)
+        if len(deck) == 0:
+            print('Shuffling')
+            time.sleep(1.5)
+            deck[:] = discard
+            discard[:] = [return_random_card()]
+            
+    finally:
+        drawn_card = return_random_card()
+        hand.append(drawn_card)
 
 # Loop through for block 5 times, adding a card to each players hand with every iteration
 # Only called at the beginning of the game 
@@ -70,6 +75,10 @@ def deal_cards():
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
+    if hand[choice][0].name[0]:
+        card_played = hand[choice]
+        hand.remove(hand[choice])
+        discard.insert(0,card_played)
     if discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
