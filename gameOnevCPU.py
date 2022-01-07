@@ -31,7 +31,7 @@ deck = [[Card(v,s),i] for v in values for i,s in enumerate(suites)]
 
 discard = []
 p1_hand = []
-p2_hand = []
+cpu_hand = []
 
 def game_setup(hand):
         name = input('Please enter your name: \n')
@@ -49,8 +49,16 @@ return_random_card = lambda x: x.pop([random.randint(0,len(x)-1)][0])
 #     deck.remove(removed)
 #     return removed
 
-def crazy8():
-    pass
+# Loop through for block 5 times, adding a card to each players hand with every iteration
+# Only called at the beginning of the game 
+def deal_cards():
+    for x in range(0,5):
+        # Remove a random card from the deck 
+        dealt_card = return_random_card(deck)
+        p1_hand.append(dealt_card)
+        dealt_card = return_random_card(deck)
+        cpu_hand.append(dealt_card)
+
 # Random card from deck is removed and appended to player hand list 
 def draw_card_from_deck(hand):
     try:
@@ -65,20 +73,13 @@ def draw_card_from_deck(hand):
         drawn_card = return_random_card(deck)
         hand.append(drawn_card)
 
-# Loop through for block 5 times, adding a card to each players hand with every iteration
-# Only called at the beginning of the game 
-def deal_cards():
-    for x in range(0,5):
-        # Remove a random card from the deck 
-        dealt_card = return_random_card(deck)
-        p1_hand.append(dealt_card)
-        dealt_card = return_random_card(deck)
-        p2_hand.append(dealt_card)
+
+
 
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
     
-    if hand[choice][0].name[0]:
+    if int(hand[choice][0].name[0]) == 8:
         #choice = crazy8()
         print(title)
         time.sleep(1.0)
@@ -96,6 +97,10 @@ def play_card_from_hand(choice,hand):
         player_turn(hand)
 
 def player_turn(hand,name):
+    print('Cards in deck:',len(deck))
+    if len(p1_hand) == 0:
+        print('Game over')
+        game = 0
     print(name,'is taking their turn.')
     print('Top card:',discard[0][0],'\n')
 
@@ -114,8 +119,66 @@ def player_turn(hand,name):
         os.system('cls' if os.name == 'nt' else 'clear')
         print('Not a valid card choice')
         player_turn(hand,name)
+        
+# def playable_cpu():
+#     for i in cpu_hand:
+#           if discard[0][0].name == i[0].name or discard[0][1] == i[1]:
+#               card = i
+#               return card
+#           else:
+#               draw_card_from_deck(cpu_hand)
+#               break
+#     playable_cpu()
+    
 
+def computer_turn():
+    print('Cards in deck:',len(deck))
+    
+    if len(cpu_hand) == 0:
+        print('Computer wins')
+        game = 0
+    
+    turn = 1
+    count = 0
+    while turn:
+        print('Computer is picking a card...',count)
+        time.sleep(1)
+        if 44 < 3:
+            print('No card in hand')
+            try:
 
+                if len(deck) == 0:
+                    print('Shuffling')
+                    time.sleep(1.5)
+                    deck[:] = discard
+                    discard[:] = [return_random_card(deck)]
+                    continue
+                    
+            finally:
+                print('Drawing!.. #',count)
+                count +=1
+                num = random.randint(0,len(deck)-1)
+                card = deck.pop(num)
+                cpu_hand.append(card)
+                print(card)
+                print(cpu_hand)
+                continue
+        else:
+            print('Found one!!!!')
+            deck.remove(deck[0])
+            turn = 0
+    # card = cpu_hand.pop(cpu_hand[0])
+    # discard.insert(0, card)
+    # print('Computer played',card[0])
+    print(input('Press enter to take your turn.\n'))
+    
+        
+    #check if hand contains a playable card
+    #discard[0]
+    #discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
+    #if hand does not contain a playable card, then cpu draws card from deck
+    #if hand does contain a playable card, remove from hand and append to discard
+    
 
 # GAME START
 
@@ -128,28 +191,22 @@ def main():
     discard.append(return_random_card(deck))
 
     name1 = game_setup(p1_hand)
-    print(input('\nPress Enter to input the next player\'s name\n'))
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-    name2 = game_setup(p2_hand)
-    print(input('\nPress Enter to begin the game!\n'))
+    print(input('\nPress Enter to start the game!\n'))
     os.system('cls' if os.name == 'nt' else 'clear')
     
     game = 1
     while game:
-
-        player_turn(p2_hand,name2)
-        if len(p2_hand) == 0:
-            game = 0
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(input('\nPress Enter to proceed to Player 1\'s turn\n'))
+        # player_turn(p2_hand,name2)
+        # if len(p2_hand) == 0:
+        #     game = 0
+        # os.system('cls' if os.name == 'nt' else 'clear')
+        # print(input('\nPress Enter to proceed to Player 1\'s turn\n'))
         
 
+        computer_turn()
         player_turn(p1_hand,name1)
-        if len(p1_hand) == 0:
-            game = 0
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(input('\nPress Enter to proceed to Player 2\'s turn\n'))
+        
+        
         
         # End of game loop
 
