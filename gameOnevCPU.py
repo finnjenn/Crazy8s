@@ -2,7 +2,7 @@ import random
 import os # used to clear terminal when player is done with their turn
 import time
 from itertools import product
-
+from art import title
 
 class Card:
     def __init__(self,name,suit):
@@ -80,11 +80,13 @@ def play_card_from_hand(choice,hand):
     
     if hand[choice][0].name[0]:
         #choice = crazy8()
+        print(title)
+        time.sleep(1.0)
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
         
-    if discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
+    elif discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
@@ -119,6 +121,8 @@ def player_turn(hand,name):
 
 
 def main():
+    print(title)
+    time.sleep(1.0)
     # Removes 10 random cards from the deck and adds 5 to each players hand 
     deal_cards()
     discard.append(return_random_card(deck))
@@ -151,6 +155,3 @@ def main():
 
 print('\n')
 main()
-
- 
-
