@@ -13,7 +13,7 @@ class Card:
         return self.name + ' of ' + self.suit
 # End Card Class
 
-values = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace']
+values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
 suites = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
 
 # Using list comphrehenion, creates a list containing [card object, value of suit] -- Ex. -- [[2 of Hearts, 0] , [2 of Clubs, 1] , [2 of Diamonds, 2] , [2 of Spades, 3] , [3 of Hearts, 0]] etc. for every card
@@ -79,7 +79,7 @@ def draw_card_from_deck(hand):
 # Finds card based on user input, removes it from the deck, and inserts it to the front/top of the discard pile/list  
 def play_card_from_hand(choice,hand):
     
-    if int(hand[choice][0].name[0]) == 8:
+    if hand[choice][0].name[0] == 8:
         #choice = crazy8()
         print(title)
         time.sleep(1.0)
@@ -87,7 +87,7 @@ def play_card_from_hand(choice,hand):
         hand.remove(hand[choice])
         discard.insert(0,card_played)
         
-    elif discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
+    elif discard[0][0] == hand[choice][0] or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
@@ -108,17 +108,17 @@ def player_turn(hand,name):
         print(i,'--',card[0])
     print(len(hand),'-- Draw card')
 
-    try:
-        choice = int(input('Which card would you like to play?\n'))
-        if choice == len(hand):
-            draw_card_from_deck(hand)
-            os.system('cls' if os.name == 'nt' else 'clear')
-            player_turn(hand,name)
-        else: play_card_from_hand(choice,hand) 
-    except: 
+    #try:
+    choice = int(input('Which card would you like to play?\n'))
+    if choice >= len(hand):
+        draw_card_from_deck(hand)
         os.system('cls' if os.name == 'nt' else 'clear')
-        print('Not a valid card choice')
         player_turn(hand,name)
+    else: play_card_from_hand(choice,hand) 
+    # except: 
+    #     #os.system('cls' if os.name == 'nt' else 'clear')
+    #     print('Not a valid card choice')
+    #     player_turn(hand,name)
         
 # def playable_cpu():
 #     for i in cpu_hand:
@@ -140,33 +140,50 @@ def computer_turn():
     
     turn = 1
     count = 0
+    print('Top card:',discard[0][0],'\n')
     while turn:
         print('Computer is picking a card...',count)
-        time.sleep(1)
-        if 44 < 3:
-            print('No card in hand')
-            try:
-
-                if len(deck) == 0:
-                    print('Shuffling')
-                    time.sleep(1.5)
-                    deck[:] = discard
-                    discard[:] = [return_random_card(deck)]
-                    continue
+        
+        for x in range(0,5):
+            
+            
+            current = cpu_hand.pop()
+            current_string = str(current[0])
+            
+        print(cpu_hand)
+            # if discard[0].name == x[0].name:
+            #     found = x
+            #     print('Found card',found)
+            #     turn = 0
+            # else:
+            #     print('moving')
+            #     backed = x
+            #     cpu_hand.pop(x)
+            #     cpu_hand.append(backed)
+        turn = 0
+        # if 44 < 3:
+        #     print('No card in hand')
+            
+        #     if len(deck) == 0:
+        #             print('Shuffling')
+        #             time.sleep(1.5)
+        #             deck[:] = discard
+        #             discard[:] = [return_random_card(deck)]
+        #             continue
                     
-            finally:
-                print('Drawing!.. #',count)
-                count +=1
-                num = random.randint(0,len(deck)-1)
-                card = deck.pop(num)
-                cpu_hand.append(card)
-                print(card)
-                print(cpu_hand)
-                continue
-        else:
-            print('Found one!!!!')
-            deck.remove(deck[0])
-            turn = 0
+            
+        #     print('Drawing!.. #',count)
+        #     count +=1
+        #     num = random.randint(0,len(deck)-1)
+        #     card = deck.pop(num)
+        #     cpu_hand.append(card)
+        #     print(card)
+        #     print(cpu_hand)
+        #     continue
+        # else:
+        #     print('Found one!!!!')
+        #     deck.remove(deck[0])
+        #     turn = 0
     # card = cpu_hand.pop(cpu_hand[0])
     # discard.insert(0, card)
     # print('Computer played',card[0])
