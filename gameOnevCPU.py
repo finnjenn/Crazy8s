@@ -146,9 +146,13 @@ def computer_turn():
         
         for x in range(0,5):
             
-            
+            #stores card list object and turns 'name' into a string and slices out the first index of the string
+            #i need first index to compare it to the discard pile first string index. stored in current_string to manipulate
+            #adds current back in to cpu hand list
+            #this also helps to identify the card that I need to grab and put into the discard pile  
             current = cpu_hand.pop()
             current_string = str(current[0])
+            cpu_hand.append(current)
             
         print(cpu_hand)
             # if discard[0].name == x[0].name:
