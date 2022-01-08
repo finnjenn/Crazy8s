@@ -87,21 +87,21 @@ def play_card_from_hand(choice,hand):
         hand.remove(hand[choice])
         discard.insert(0,card_played)
         
-    elif discard[0][0] == hand[choice][0] or discard[0][1] == hand[choice][1]:
+    elif discard[0][0].name == hand[choice][0].name or discard[0][1] == hand[choice][1]:
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
     else: 
         os.system('cls' if os.name == 'nt' else 'clear')
-        print('That card does not match the suit or value of the top card.\nPlease try again')
+        print('The card you played was',hand[choice],'That card does not match the suit or value of the top card.\nPlease try again')
         player_turn(hand)
 
-def player_turn(hand,name):
+def player_turn(hand):
     print('Cards in deck:',len(deck))
     if len(p1_hand) == 0:
         print('Game over')
         game = 0
-    print(name,'is taking their turn.')
+    print('User is taking their turn.')
     print('Top card:',discard[0][0],'\n')
 
     for i,card in enumerate(hand):
@@ -113,7 +113,7 @@ def player_turn(hand,name):
     if choice >= len(hand):
         draw_card_from_deck(hand)
         os.system('cls' if os.name == 'nt' else 'clear')
-        player_turn(hand,name)
+        player_turn(hand)
     else: play_card_from_hand(choice,hand) 
     # except: 
     #     #os.system('cls' if os.name == 'nt' else 'clear')
@@ -139,31 +139,38 @@ def computer_turn():
         game = 0
     
     turn = 1
-    count = 0
     print('Top card:',discard[0][0],'\n')
     while turn:
-        print('Computer is picking a card...',count)
+        print('Computer is picking a card...')
+        count=0
+        top_card = discard[0]
+        string_top = str(top_card[0])
         
-        for x in range(0,5):
-            
+        for x in cpu_hand:
+            print('Count',count)
+            count+=1
             #stores card list object and turns 'name' into a string and slices out the first index of the string
             #i need first index to compare it to the discard pile first string index. stored in current_string to manipulate
             #adds current back in to cpu hand list
             #this also helps to identify the card that I need to grab and put into the discard pile  
             current = cpu_hand.pop()
             current_string = str(current[0])
-            cpu_hand.append(current)
-            
-        print(cpu_hand)
-            # if discard[0].name == x[0].name:
-            #     found = x
-            #     print('Found card',found)
-            #     turn = 0
+            print(current_string,'Current')
+            cpu_hand.insert(0,current)
+            print(string_top[0],'==',current_string[0],'or',top_card[1],'==',current[1],'\n')
+            if string_top[0] == current_string[0] or top_card[1] == current[1]:
+                
+                print('Found card\n')
+                card_play = cpu_hand.pop(0)
+                discard.insert(0,card_play)
+                print(discard[0])
+                return card_play
             # else:
-            #     print('moving')
+            #     print('moving\n')
             #     backed = x
             #     cpu_hand.pop(x)
             #     cpu_hand.append(backed)
+        print('game end')
         turn = 0
         # if 44 < 3:
         #     print('No card in hand')
@@ -225,7 +232,7 @@ def main():
         
 
         computer_turn()
-        player_turn(p1_hand,name1)
+        player_turn(p1_hand)
         
         
         
