@@ -99,24 +99,39 @@ def game_setup():
 
     
 def computer_take_turn():
-    print('Computer is picking a card...')
-    
     for current_card in computer_cards:
         if is_valid_card(current_card):
             discard_pile.insert(0,current_card)
             computer_cards.remove(current_card)
             time.sleep(1.5)
             print('The computer picked', current_card)
+            print(input('Press Enter to begin your turn'))
             return
     print('Computer needs to draw a card.')
     draw_card_from_deck(computer_cards)
     computer_take_turn()
                 
-def user_take_turn():
-    pass
+def user_take_turn(hand):
+    print('User is taking their turn.')
+    print('Top card:',discard_pile[0],'\n')
 
+    print('Your hand:\n')
+    for i,card in enumerate(hand):
+        print(i,'--',card)
+    print(len(hand),'-- Draw card')
+    
+    choice = int(input('Which card would you like to play?\n'))
+    if choice >= len(hand):
+        draw_card_from_deck(hand)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        user_take_turn(hand)
+    elif choice < len(hand): play_card_from_hand(hand,choice) 
+    else: 
+        print('Not a valid card choice')
+        user_take_turn(hand)
+        
 def main():
     game_setup()
-    print(computer_cards)
     computer_take_turn()
+    user_take_turn(user_cards)
 main()

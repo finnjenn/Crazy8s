@@ -81,8 +81,7 @@ def play_card_from_hand(choice,hand):
     
     if hand[choice][0].name[0] == 8:
         #choice = crazy8()
-        print(title)
-        time.sleep(1.0)
+        
         card_played = hand[choice]
         hand.remove(hand[choice])
         discard.insert(0,card_played)
@@ -114,11 +113,10 @@ def player_turn(hand):
         draw_card_from_deck(hand)
         os.system('cls' if os.name == 'nt' else 'clear')
         player_turn(hand)
-    else: play_card_from_hand(choice,hand) 
-    # except: 
-    #     #os.system('cls' if os.name == 'nt' else 'clear')
-    #     print('Not a valid card choice')
-    #     player_turn(hand,name)
+    elif choice < len(hand): play_card_from_hand(choice,hand) 
+    else: 
+        print('Not a valid card choice')
+        player_turn(hand)
         
 # def playable_cpu():
 #     for i in cpu_hand:
