@@ -43,11 +43,16 @@ deck = [Card(value,suit,suit_value) for value in values for suit_value,suit in e
 discard_pile = []
 user_cards = []
 computer_cards = []
-    
+
+# pops an item from deck at a random index and returns that object
 return_random_card = lambda game_deck: game_deck.pop([random.randint(0,len(game_deck)-1)][0])
+
+# appends a random card from the deck into the empty discard pile
+# simulates picking the top card off of the deck to start the game
 flip_top_card = lambda discard: discard.append(return_random_card(deck))
 
 def is_valid_card(card):
+    '''Returns True or False depending on whether or not the card is playable'''
     top_card = discard_pile[0]
     
     if card.get_first_character() == '8':
@@ -82,6 +87,7 @@ def draw_card_from_deck(hand):
 
 
 def display_cards(user_cards):
+    '''Takes in the user's hand as an argument and displays the cards'''
     print('0   --  Draw card')
     for i,card in enumerate(user_cards):
         print(i+1,'  -- ',card)
@@ -102,7 +108,7 @@ def play_card_from_hand(hand,choice):
         user_take_turn(hand)  
 
 def selection_screen(hand):
-             
+    '''Creates the text to show the user their selection options at the beginning of their turn'''             
     print('Top card:',discard_pile[0],'\n')
     time.sleep(1.25)
     print('The computer has',len(computer_cards),'cards left in its hand')
@@ -112,11 +118,17 @@ def selection_screen(hand):
     display_cards(hand)
     
 def game_setup():
+    '''Calls deal_cards to put 5 cards in the user's and computer's hand.
+    Calls flip top card to 'initialize' the game.
+    Lets the user know that the computer will take the first turn of the game'''
     deal_cards()
     flip_top_card(discard_pile) 
     print('The computer will go first!\n') 
 
 def computer_take_turn():
+    '''Searches through computer_cards to find a valid card.
+    If it finds one, it removes the card and inserts it into the first slot.
+    If not, the user is notified that the computer is drawing a card and then it restarts the computer turn to begin searching again.'''
     time.sleep(1.5)
     for current_card in computer_cards:
         
@@ -133,7 +145,9 @@ def computer_take_turn():
     computer_take_turn()
                 
 def user_take_turn(hand):
-    
+    '''Asks user which card they would like to play based on the text in selection_screen.
+    If they select 0 -- Draw card, run draw_card_from_deck function, clear the screen and re run the user's turn.
+    If a valid number based off of the selection screen is picked by the user, notify them which card they have played and wait for input from user to begin computer's turn'''
     selection_screen(hand)
     choice = int(input('\nWhich card would you like to play?\n'))
     
