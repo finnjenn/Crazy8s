@@ -25,7 +25,7 @@ class Card:
     def get_first_character(self):
         '''Returns the first character in the card name string.
         The character is used to compare against other cards characters to see if they match'''
-        return self.name_value
+        return self.name_value[0]
     
     def get_suit_value(self):
         '''Returns the suit value of the card.
@@ -37,7 +37,7 @@ class Card:
 # Diamonds = 2
 # Spades = 3
 # Using list comphrehenion, creates a list containing [card object, value of suit] -- Ex. -- [[2 of Hearts, 0] , [2 of Clubs, 1] , [2 of Diamonds, 2] , [2 of Spades, 3] , [3 of Hearts, 0]] etc. for every card
-values = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+values = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace']
 suites = ['Hearts', 'Clubs', 'Diamonds', 'Spades']    
 deck = [Card(value,suit,suit_value) for value in values for suit_value,suit in enumerate(suites)]
 discard_pile = []
@@ -49,7 +49,7 @@ flip_top_card = lambda discard: discard.append(return_random_card(deck))
 
 def is_valid_card(card):
     top_card = discard_pile[0]
-    if card.get_first_character() == 8:
+    if card.get_first_character() == '8':
         crazy_8_is_played()
         return True
     elif card.get_first_character() == top_card.get_first_character() or card.get_suit_value() == top_card.get_suit_value():
@@ -71,19 +71,24 @@ def deal_cards():
         user_cards.append(return_random_card(deck))
         computer_cards.append(return_random_card(deck))
         
-def draw_card_from_deck(player_hand):
+def draw_card_from_deck(hand):
     '''Appends a random card into the user's hand.
     Unless the deck list is empty. Then it would shuffle the discard into deck first.'''
     if len(deck) == 0:
         shuffle_discard_into_deck()
-    else:player_hand.append(return_random_card(deck))
-    
+    else:hand.append(return_random_card(deck))
+
+
+def display_cards(hand):
+    print('0   --  Draw card')
+    for i,card in enumerate(hand):
+        print(i+1,'  -- ',card)
+  
 def play_card_from_hand(hand,choice):
     '''Compares the card that the user selected to the top card in the discard pile to validate if the card is legally playable.
     If so, removes the card from the user's hand and inserts it as the top card in the discard pile.
     If not, lets the user know that the card is not playable and retriggers their turn.'''
-    user_chosen_card = hand[choice]
-    
+    user_chosen_card = hand[choice-1]
     if is_valid_card(user_chosen_card):
         hand.remove(user_chosen_card)
         discard_pile.insert(0,user_chosen_card)
@@ -91,7 +96,7 @@ def play_card_from_hand(hand,choice):
     else:
         os.system('cls' if os.name == 'nt' else 'clear')
         print('The card you played was',user_chosen_card,'\nThat card does not match the suit or value of the top card.\nPlease try again.')
-        user_take_turn()  
+        user_take_turn(hand)  
              
 def game_setup():
     deal_cards()
@@ -104,31 +109,31 @@ def computer_take_turn():
         if is_valid_card(current_card):
             discard_pile.insert(0,current_card)
             computer_cards.remove(current_card)
-            print('The computer picked', current_card)
+            print('The computer picked', current_card,'\n')
             print(input('Press Enter to begin your turn\n'))
             os.system('cls' if os.name == 'nt' else 'clear')
             return
-    print('Computer needs to draw a card.')
+    print('Computer needs to draw a card.\n')
     draw_card_from_deck(computer_cards)
     computer_take_turn()
                 
 def user_take_turn(hand):
-    print('User is taking their turn.')
     print('Top card:',discard_pile[0],'\n')
+    time.sleep(1.25)
     print('The computer has',len(computer_cards),'cards left in its hand')
 
     #wrap into function
     print('Your hand:\n')
-    for i,card in enumerate(hand):
-        print(i,'--',card)
-    print(len(hand),'-- Draw card')
+    time.sleep(1.5)
+    display_cards(hand)
     
-    choice = int(input('Which card would you like to play?\n'))
-    if choice >= len(hand):
+    choice = int(input('\nWhich card would you like to play?\n'))
+    if choice == 0:
         draw_card_from_deck(hand)
         os.system('cls' if os.name == 'nt' else 'clear')
         user_take_turn(hand)
-    elif choice < len(hand):
+    elif choice <= len(hand)+1:
+        print('You played the',hand[choice-1])
         play_card_from_hand(hand,choice) 
         print(input('Press Enter to start Computer\'s turn\n'))
         os.system('cls' if os.name == 'nt' else 'clear')
