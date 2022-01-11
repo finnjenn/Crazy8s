@@ -49,9 +49,11 @@ flip_top_card = lambda discard: discard.append(return_random_card(deck))
 
 def is_valid_card(card):
     top_card = discard_pile[0]
+    
     if card.get_first_character() == '8':
         crazy_8_is_played()
         return True
+    
     elif card.get_first_character() == top_card.get_first_character() or card.get_suit_value() == top_card.get_suit_value():
         return True
     else:
@@ -89,6 +91,7 @@ def play_card_from_hand(hand,choice):
     If so, removes the card from the user's hand and inserts it as the top card in the discard pile.
     If not, lets the user know that the card is not playable and retriggers their turn.'''
     user_chosen_card = hand[choice-1]
+    
     if is_valid_card(user_chosen_card):
         hand.remove(user_chosen_card)
         discard_pile.insert(0,user_chosen_card)
@@ -104,7 +107,6 @@ def selection_screen(hand):
     time.sleep(1.25)
     print('The computer has',len(computer_cards),'cards left in its hand')
 
-    #wrap into function
     print('Your hand:\n')
     time.sleep(1.5)
     display_cards(hand)
@@ -117,6 +119,7 @@ def game_setup():
 def computer_take_turn():
     time.sleep(1.5)
     for current_card in computer_cards:
+        
         if is_valid_card(current_card):
             discard_pile.insert(0,current_card)
             computer_cards.remove(current_card)
@@ -124,39 +127,48 @@ def computer_take_turn():
             print(input('Press Enter to begin your turn\n'))
             os.system('cls' if os.name == 'nt' else 'clear')
             return
+        
     print('Computer needs to draw a card.\n')
     draw_card_from_deck(computer_cards)
     computer_take_turn()
                 
 def user_take_turn(hand):
+    
     selection_screen(hand)
     choice = int(input('\nWhich card would you like to play?\n'))
+    
     if choice == 0:
         draw_card_from_deck(hand)
         os.system('cls' if os.name == 'nt' else 'clear')
         user_take_turn(hand)
+        
     elif choice <= len(hand)+1:
         print('You played the',hand[choice-1])
         play_card_from_hand(hand,choice) 
         print(input('Press Enter to start Computer\'s turn\n'))
         os.system('cls' if os.name == 'nt' else 'clear')
+    
     else: 
         print('Not a valid card choice')
         user_take_turn(hand)
         
 def main():
+    
     game_setup()
     
     while True:
         print('Top card:',discard_pile[0])
         
         computer_take_turn()
+        
         if len(computer_cards) == 0:
             print('The computer is out of cards! You lost.')
             break 
           
         user_take_turn(user_cards)
+        
         if len(user_cards) == 0:
             print('You used up all of your cards! Congratulations you won the game!')
             break
+# End of main
 main()
