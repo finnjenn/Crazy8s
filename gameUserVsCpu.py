@@ -79,9 +79,9 @@ def draw_card_from_deck(hand):
     else:hand.append(return_random_card(deck))
 
 
-def display_cards(hand):
+def display_cards(user_cards):
     print('0   --  Draw card')
-    for i,card in enumerate(hand):
+    for i,card in enumerate(user_cards):
         print(i+1,'  -- ',card)
   
 def play_card_from_hand(hand,choice):
@@ -97,7 +97,18 @@ def play_card_from_hand(hand,choice):
         os.system('cls' if os.name == 'nt' else 'clear')
         print('The card you played was',user_chosen_card,'\nThat card does not match the suit or value of the top card.\nPlease try again.')
         user_take_turn(hand)  
+
+def selection_screen(hand):
              
+    print('Top card:',discard_pile[0],'\n')
+    time.sleep(1.25)
+    print('The computer has',len(computer_cards),'cards left in its hand')
+
+    #wrap into function
+    print('Your hand:\n')
+    time.sleep(1.5)
+    display_cards(hand)
+    
 def game_setup():
     deal_cards()
     flip_top_card(discard_pile) 
@@ -118,15 +129,7 @@ def computer_take_turn():
     computer_take_turn()
                 
 def user_take_turn(hand):
-    print('Top card:',discard_pile[0],'\n')
-    time.sleep(1.25)
-    print('The computer has',len(computer_cards),'cards left in its hand')
-
-    #wrap into function
-    print('Your hand:\n')
-    time.sleep(1.5)
-    display_cards(hand)
-    
+    selection_screen(hand)
     choice = int(input('\nWhich card would you like to play?\n'))
     if choice == 0:
         draw_card_from_deck(hand)
@@ -146,10 +149,12 @@ def main():
     
     while True:
         print('Top card:',discard_pile[0])
+        
         computer_take_turn()
         if len(computer_cards) == 0:
             print('The computer is out of cards! You lost.')
-            break   
+            break 
+          
         user_take_turn(user_cards)
         if len(user_cards) == 0:
             print('You used up all of your cards! Congratulations you won the game!')
